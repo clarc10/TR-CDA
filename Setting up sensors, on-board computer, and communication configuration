@@ -1,4 +1,4 @@
-#eUAV Wireless Communication and Control System Set-Up, A Network and System Connection
+#Section 1: eUAV Wireless Communication and Control System Set-Up, A Network and System Connection
 
 1.	Establishing SSH Connection Between Ground Control Base Station (GCBS) and Raspberry Pi
 To establish the initial connection between the Ground Control Base Station (GCBS) computer and the On-Board Computer (Raspberry Pi), SSH (Secure Shell) pro-tocol is used. SSH facilitates remote command line access to the Raspberry Pi. Prior to SSH access, it is imperative that both the GCBS computer and Raspberry Pi are con-nected to the same Wi-Fi network, for this project the university guest network was used. To initiate SSH connection, open the terminal on the GCBS computer and input the command: ssh eUAVpi@<pi ip address>. Here, eUAVpi represents the username of the primary user on the Raspberry Pi. In case the IP address of the Pi is unknown, it can be retrieved by connecting a monitor and keyboard to the Raspberry Pi and executing the command hostname -I in the terminal window. Upon executing the SSH command from the GCBS, the password for the Raspberry Pi's eUAVpi user must be entered. Fol-lowing successful authentication, the user gains terminal access to the Raspberry Pi from the GCBS. This terminal interface on the Raspberry Pi serves for configuration purposes and execution of scripts essential for the MQTT and MAVLink protocols.
@@ -45,7 +45,7 @@ Note that /dev/ttyS0 and 921600 will need to be replaced with the correct port a
 This sends the MAVLink messages over UDP to ports 14550 and 14551 of the GCBS. Port 14550 is typically used for MAVLink connections and is used by autopilot software in the GCBS such as Mission Planner by default. for the Communication and Control System Model, port 14551 will be used. This allows running both Mission Planner and the SysML model at the same time. While not required, MAVProxy can also be used on the GCBS instead of Mission Planner. To install MAVProxy on the GCBS, use the following command: python3 –m pip install MAVProxy. Once the Raspberry Pi has started forwarding MAVLink messages, run MAVProxy on the GCBS with the following command: sudo mavproxy.py --master= udpin:0.0.0.0:14550 –baudrate 115200. Now MAVProxy can be used as a GCBS instead of Mission Planner.
 
 
-#Physical Asset On-Board Computer and (Camera) Sensor Configuration
+#Section 2:Physical Asset On-Board Computer and (Camera) Sensor Configuration
 
 1.	Set-Up Raspberry Pi Camera Streaming
 To set-up live camera streaming from the Raspberry Pi, follow these steps:
