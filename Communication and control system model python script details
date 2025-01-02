@@ -1,0 +1,100 @@
+arm.py
+
+<span style="color:black; font-weight:bold;">This text is bold and black</span>
+
+usage: arm.py [-h] [-s SOURCE] [-b BAUDRATE] [-d]
+
+Arms or disarms the eUAV by sending MAV_CMD_COMPONENT_ARM_DISARM. If a command acknowl-edgement with MAV_RESULT_ACCEPTED is received back, then the script exits with code 0. Otherwise, it exists with code 1. This can be used to indicate to the systems model whether the eUAV was armed/disarmed success-fully. This script also prints the command acknowledgement message with a timestamp in a JSON format.
+ optional arguments:
+  -h, --help            show this help message and exit
+  -s SOURCE, --source SOURCE
+                        MAVLink connection source string.
+  -b BAUDRATE, --baudrate BAUDRATE
+  -d, --disarm          If included, disarms the eUAV. Otherwise, eUAV is armed.
+
+mavlink_recv_till_mission_complete.py
+usage: mavlink_recv_till_mission_complete.py [-h] [-a] [-s SOURCE] [-b BAUDRATE] [msg_types ...]
+ 
+Receives specified MAVLink messages until the mission is complete. Specifically, this waits for a MIS-SION_ITEM_REACHED message that indicates that the eUAV has reached the final item in the mission. Each message is printed as a JSON on its own line.
+ 
+positional arguments:
+  msg_types             msg types to recv (e.g. NKF1 IMU GPS), default is all. MISSION_ITEM_REACHED is always added.
+ 
+optional arguments:
+  -h, --help            show this help message and exit
+  -a, --add_timestamp   add _timestamp to each message
+  -s SOURCE, --source SOURCE
+                        MAVLink connection source.
+  -b BAUDRATE, --baudrate BAUDRATE
+
+mavlink_recv.py
+usage: mavlink_recv.py [-h] [-n NUM_MSGS] [-t TIME] [-a] [-s SOURCE] [-b BAUDRATE] [msg_types ...]
+
+Receives specified MAVLink messages. Each message is printed as a JSON on its own line. This is so that these messages can easily parsed by the systems model.
+
+positional arguments:
+  msg_types             msg types to recv (e.g. NKF1 IMU GPS), default is all
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n NUM_MSGS, --num_msgs NUM_MSGS
+                        max number of messages to recv (0 for infinite)
+  -t TIME, --time TIME  max time to recv messages for (0 for infinite)
+  -a, --add_timestamp   add _timestamp to each message
+  -s SOURCE, --source SOURCE
+                        MAVLink connection source string.
+  -b BAUDRATE, --baudrate BAUDRATE
+
+set_mode.py
+usage: set_mode.py [-h] [-s SOURCE] [-b BAUDRATE] mode
+
+Sets the mode of the eUAV by sending MAV_CMD_DO_SET_MODE. Accepts modes either as a name (e.g. AU-TO) or as an integer (e.g. 10). If a command acknowledgement with MAV_RESULT_ACCEPTED is received back, then the script exits with code 0. Otherwise, it exists with code 1, indicating that the mode could not be changed successfully. This script also prints the command acknowledgement message with a timestamp in a JSON format.
+
+positional arguments:
+  mode                  mode name (e.g. AUTO) or number (e.g. 10)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s SOURCE, --source SOURCE
+                        MAVLink connection source string.
+  -b BAUDRATE, --baudrate BAUDRATE
+
+set_pos_target_ned.py
+usage: set_pos_target_ned.py [-h] [-s SOURCE] [-b BAUDRATE] N E
+
+Sends the MAVLink set_position_target_local_ned_message for movement some distance North and East. Uses a LOCAL_OFFSET_NED frame, indicating that the distances north and east are relative to the current position.
+
+positional arguments:
+  N                    meters north
+  E                     meters east
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s SOURCE, --source SOURCE
+                        MAVLink connection source.
+  -b BAUDRATE, --baudrate BAUDRATE
+
+upload_waypoints.py
+usage: upload_waypoints.py [-h] [-s SOURCE] [-b BAUDRATE] WP_FILE
+
+Loads waypoints from a file and uploads to the eUAV over MAVLink. Exits with code 0 if the eUAV sends back a MISSION_ACK (acknowledgement) with value MAV_MISSION_ACCEPTED. If the mission is not accepted, ex-its with code 1.
+
+positional arguments:
+  WP_FILE               Path to the Waypoint File
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s SOURCE, --source SOURCE
+                        MAVLink connection source.
+  -b BAUDRATE, --baudrate BAUDRATE
+
+verify_mavlink.py
+usage: verify_mavlink.py [-h] [-s SOURCE] [-b BAUDRATE] 
+
+Verifies that MAVLink source and baudrate are set correctly by waiting for a heartbeat from the eUAV. EUAV heartbeats are sent automatically at 1 Hz (every second). When a heartbeat is received, the script exits with code 0. If no heartbeat is received in 3 seconds, this exits with code 1 to indicate a faulty connection. 
+
+optional arguments: 
+  -h, --help            show this help message and exit 
+  -s SOURCE, --source SOURCE 
+                        MAVLink connection source string. 
+  -b BAUDRATE, --baudrate BAUDRATE
