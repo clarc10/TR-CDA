@@ -1,7 +1,4 @@
 arm.py
-
-<span style="color:black; font-weight:bold;">This text is bold and black</span>
-
 usage: arm.py [-h] [-s SOURCE] [-b BAUDRATE] [-d]
 
 Arms or disarms the eUAV by sending MAV_CMD_COMPONENT_ARM_DISARM. If a command acknowl-edgement with MAV_RESULT_ACCEPTED is received back, then the script exits with code 0. Otherwise, it exists with code 1. This can be used to indicate to the systems model whether the eUAV was armed/disarmed success-fully. This script also prints the command acknowledgement message with a timestamp in a JSON format.
