@@ -76,8 +76,12 @@ Once the section above is completed, the stream can be setup in the Mission Plan
 
 ### MAVLink Script Arguments
 All scripts accept the following arguments:  
-- **`-s/--source`**: MAVLink connection source string.  
+- **`-s/--source`**: MAVLink connection source string.
+     - For UDP connection on port 14551, `udpin:0.0.0.0:14551`
+     - For TCP connection on port 14551, `tcpin:0.0.0.0:14551`
+     - For USB radio on Windows, this will be a com port, such as `com3`
 - **`-b/--baudrate`**: Baud rate for the MAVLink connection.
+     - Only required when using MAVLink over a USB radio
 
 The additional arguments for each script are covered in the following section.
 Furthermore, any script can be provided `-h` to view the full documentation. 
