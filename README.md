@@ -1,5 +1,5 @@
 # TR-CDA
-Real Time Communication and Data Aquisition (RT-CDA) Method
+Real Time Communication and Data Aquisition (RT-CDA) Methodology
 
 ## Table of Contents
 1. [Communication and Control System Setup](#communication-and-control-system-setup)  
