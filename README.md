@@ -1,6 +1,16 @@
 # TR-CDA
 Real Time Communication and Data Aquisition (RT-CDA) Method
 
+## Table of Contents
+1. [Communication and Control System Setup](#communication-and-control-system-setup)  
+   - [Overview of Full Setup](#overview-of-full-setup)  
+   - [MAVLink](#mavlink) 
+   - [MQTT](#mqtt)  
+   - [Camera Streaming](#camera-streaming)  
+2. [Scripts Documentation](#scripts-documentation)  
+   - [MAVLink Script Arguments](#mavlink-script-arguments)  
+   - [Summary of MAVLink Scripts](#summary-of-mavlink-scripts)  
+
 ## Communication and Control System Setup
 
 ### Overview of Full Setup
@@ -58,8 +68,31 @@ where -p is for port number, -rot is for rotation, -r is for resolution, -fps is
 
 To access the live stream from the browser of any computer on the network, open the following link: http://<pi_ip_address>:8080?action=stream. Substitute <pi_ip_address> for the actual IP address of the Raspberry Pi. On the Raspberry Pi itself use http://localhost:8080?action=stream.
 
+
 #### Camera Configuration in Mission Planner
 Once the section above is completed, the stream can be setup in the Mission Planner HUD. Right click on the HUD, click video, and then click Set MJPEG source. A popup will ask for the URL. Enter the URL provided above, and the stream should start in Mission Planner.
+
+## Scripts Documentation
+
+### MAVLink Script Arguments
+All scripts accept the following arguments:  
+- **`-s/--source`**: MAVLink connection source string.  
+- **`-b/--baudrate`**: Baud rate for the MAVLink connection.
+
+The additional arguments for each script are covered in the following section.
+Furthermore, any script can be provided `-h` to view the full documentation. 
+
+### Summary of MAVLink Scripts
+
+| **Script Name**                | **Description**                                                                                                                                                                                                                 | **Key Arguments**                                  |
+|--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| **`arm.py`**                   | Arms or disarms the eUAV by sending `MAV_CMD_COMPONENT_ARM_DISARM`. Exits with code `0` if `MAV_RESULT_ACCEPTED` is received, else exits with code `1`. Prints command acknowledgment in JSON format with a timestamp.       | `-d/--disarm` (disarm instead of arm)            |
+| **`mavlink_recv_till_mission_complete.py`** | Receives MAVLink messages until the mission is complete. Waits for `MISSION_ITEM_REACHED` message. Each message is printed in JSON format.                                                                            | `msg_types` (specific message types), `-a` (add timestamp) |
+| **`mavlink_recv.py`**          | Receives specified MAVLink messages, printing each as a JSON line. Can limit by number of messages or time duration.                                                                                                         | `msg_types` (specific message types), `-n` (max messages), `-t` (max time), `-a` (add timestamp) |
+| **`set_mode.py`**              | Sets the mode of the eUAV by sending `MAV_CMD_DO_SET_MODE`. Accepts mode names (e.g., `AUTO`) or numbers. Exits with code `0` if successful, else `1`. Prints acknowledgment with a timestamp in JSON format.               | `mode` (name or number)                          |
+| **`set_pos_target_ned.py`**    | Sends `set_position_target_local_ned_message` for relative movement in the North-East direction using `LOCAL_OFFSET_NED` frame.                                                                                             | `N` (meters North), `E` (meters East)            |
+| **`upload_waypoints.py`**      | Uploads waypoints from a file to the eUAV over MAVLink. Exits with code `0` if mission is accepted (`MAV_MISSION_ACCEPTED`), else `1`.                                                                                       | `WP_FILE` (path to waypoint file)                |
+| **`verify_mavlink.py`**        | Verifies MAVLink source and baudrate by waiting for a heartbeat. Exits with code `0` if a heartbeat is received within 3 seconds, else exits with code `1`.                                                                 | None                                             |
 
 
 
